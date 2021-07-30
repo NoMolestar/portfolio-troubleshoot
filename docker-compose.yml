@@ -1,24 +1,32 @@
 version: "3"
 services:
 web:
+  #Added Container Name
+  container_name: web
   build: .
+  #Added restart always
+  restart: always
   ports:
     - 8888:80
-  restart: "no"
+  #Added the real direction of env file
   env_file:
-    - .env
+    #- .env
+    - ./example.env
   volumes:
     - .:/myportfolio
   depends_on:
     - db
 
 db:
-  image: postgres:tag-not-found
+  #Added container_name
+  container_name: db
+  #Erased tag not found
+  image: postgres
   restart: always
   env_file:
-    - .env
+    - ./example.env
   volumes:
     - mydatabase:/var/lib/postgresql/data
 
 volumes:
-  my_database:
+  mydatabase:

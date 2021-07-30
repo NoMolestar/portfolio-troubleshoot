@@ -1,4 +1,5 @@
-FROM scratch
+#FROM scratch
+FROM python:3.8-slim-buster
 
 RUN mkdir /myportfolio
 COPY requirements.txt /myportfolio
@@ -7,4 +8,6 @@ RUN pip3 install -r requirements.txt
 
 COPY . /myportfolio
 
-CMD ["./entrypoint.sh"]
+RUN chmod u+x ./entrypoint.sh
+ENTRYPOINT ["sh","./entrypoint.sh"]
+#CMD ["./entrypoint.sh"]

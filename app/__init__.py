@@ -1,9 +1,11 @@
 import os
 from flask import Flask, render_template, request
+from dotenv import load_dotenv
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
+load_dotenv()
 app = Flask(__name__)
 app.config[
     "SQLALCHEMY_DATABASE_URI"
@@ -37,7 +39,7 @@ class UserModel(db.Model):
 
 @app.route("/")
 def index():
-return rendertemplate("index.html", title="MLH Fellow", url="localhost:5000")
+    return render_template("index.html", title="MLH Fellow", url=os.getenv("URL"))
 
 
 @app.route("/health")
@@ -67,7 +69,7 @@ def register():
         else:
             return error, 418
 
-    return render_template("register.html", title="Register")
+    return render_template("register.html", title="Register", url=os.getenv("URL"))
 
 
 @app.route("/login", methods=("GET", "POST"))
@@ -88,4 +90,8 @@ def login():
         else:
             return error, 418
 
-    return render_template("login.html", title="Login")
+    return render_template("login.html", title="Login", url=os.getenv("URL"))
+
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=5000)
